@@ -28,15 +28,20 @@ The model includes state, actuator and the update equations. As taught in the cl
 
 The actuators are `delta` for steer and `a` for throttle. And the update equations are:
 
-`x_[t+1] = x[t] + v[t] * cos(psi[t]) * dt
- y_[t+1] = y[t] + v[t] * sin(psi[t]) * dt
- psi_[t+1] = psi[t] + v[t] / Lf * delta[t] * dt
- v_[t+1] = v[t] + a[t] * dt
- cte[t+1] = f(x[t]) - y[t] + v[t] * sin(epsi[t]) * dt
- epsi[t+1] = psi[t] - psides[t] + v[t] * delta[t] / Lf * dt
-`
+`x_[t+1] = x[t] + v[t] * cos(psi[t]) * dt`
 
-Additionally, the cost is also evaluated by minimizing the `cte` and `epsi`. Also, a cost is also put on actuators and their changes to make the control smooth. A weight of 500 is used for `delta` and its change.
+`y_[t+1] = y[t] + v[t] * sin(psi[t]) * dt`
+
+`psi_[t+1] = psi[t] + v[t] / Lf * delta[t] * dt`
+
+`v_[t+1] = v[t] + a[t] * dt`
+
+`cte[t+1] = f(x[t]) - y[t] + v[t] * sin(epsi[t]) * dt`
+
+`epsi[t+1] = psi[t] - psides[t] + v[t] * delta[t] / Lf * dt`
+
+
+Additionally, the cost is also evaluated by minimizing the `cte` and `epsi`. Also, a cost is put on actuators and their changes to make the control smooth. A weight of 500 is used for `delta` and its change.
 
 ### Timestep and Elapsed Duration
 
@@ -44,11 +49,11 @@ First tried `N=7` and `dt=0.05`, and the simulation showed the vehicle was not s
 
 ### Polynomial Fitting and Preprocessing
 
-Before fitting the waypoints, the data was tranformed from global coordinates to vehicle coordinates.
+Before fitting the waypoints, the data was tranformed from global coordinates to vehicle coordinates by:
 
-`waypoints(0,i) =   cos(psi) * (ptsx[i] - x) + sin(psi) * (ptsy[i] - y);
- waypoints(1,i) =  -sin(psi) * (ptsx[i] - x) + cos(psi) * (ptsy[i] - y);
-`
+`waypoints(0,i) =   cos(psi) * (ptsx[i] - x) + sin(psi) * (ptsy[i] - y);`
+
+`waypoints(1,i) =  -sin(psi) * (ptsx[i] - x) + cos(psi) * (ptsy[i] - y);`
 
 ### Latency
 
